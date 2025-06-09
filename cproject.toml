@@ -1,0 +1,8 @@
+[project]
+name = "mathlib"
+version = "0.1.0"
+
+[build]
+module_root = "src"
+header_root = "include"
+standard = "c++20"
