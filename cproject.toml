@@ -2,7 +2,24 @@
 name = "mathlib"
 version = "0.1.0"
 
-[build]
-module_root = "src"
-header_root = "include"
-standard = "c++20"
+[build-system]
+requires = ["cmake>=3.29"]
+backend = "cmake"
+
+[build-system.settings]
+build_type = "Release"
+build_directory = "build"
+install_directory = "install"
+
+[build-system.compiler]
+cxx_standard = "20"
+warnings = "all"
+warnings_as_errors = true
+
+[build-system.targets]
+mathlib = { type = "library", sources = ["src/*.cpp", "src/*.ixx"] }
+
+[build-system.features]
+modules = true
+optimizations = true
+debug_symbols = false
