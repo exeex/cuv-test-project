@@ -1,3 +1,3 @@
-export module math.add;
+export module add;
 
 export int add(int a, int b);

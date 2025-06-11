@@ -6,6 +6,10 @@ version = "0.1.0"
 requires = ["cmake>=3.29"]
 backend = "cmake"
 
+[build-system.toolchain]
+C_COMPILER = "/usr/bin/clang-18"
+CXX_COMPILER = "/usr/bin/clang++-18"
+
 [build-system.settings]
 build_type = "Release"
 build_directory = "build"

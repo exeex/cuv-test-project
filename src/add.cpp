@@ -1,4 +1,4 @@
-module math.add;
+module add;
 
 int add(int a, int b) {
     return a + b;
