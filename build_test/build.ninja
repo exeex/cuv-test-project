@@ -1,0 +1,44 @@
+ninja_required_version = 1.10
+
+cxx = /usr/bin/clang++-19
+ar = /usr/bin/ar
+module_cache_dir = /home/tim/cuv/cuv/tests/cuv-test-project/build_test/module_cache
+cxxflags = -std=c++20 -Wall -O2 -fprebuilt-module-path=$module_cache_dir
+
+# 建立模組快取目錄
+rule create_dir
+  command = mkdir -p $out
+  description = Creating directory $out
+
+# 一般 C++ 編譯規則 - 會從快取目錄尋找模組
+rule cxx_compile
+  command = $cxx $cxxflags -c $in -o $out -fprebuilt-module-path=$module_cache_dir
+  description = Compiling source $in
+
+# 模組介面編譯規則 - 產生 BMI 到快取目錄
+rule cxx_module_compile
+  command = $cxx $cxxflags --precompile -o $out -c $in
+  description = Compiling module interface $in
+
+# 編譯靜態庫規則
+rule cxx_static_library
+  command = $ar rcs $out $in
+  description = Linking $out
+
+# 連結規則
+rule cxx_link
+  command = $cxx $in -o $out $ldflags
+  description = Linking $out
+build objects: create_dir
+build module_cache: create_dir
+build targets: create_dir
+build module_cache/add.pcm: cxx_module_compile /home/tim/cuv/cuv/tests/cuv-test-project/src/add.cppm | module_cache
+  cxx = /usr/bin/clang++-19
+  cxxflags = -std=c++20 -Wall -O2 -I/home/tim/cuv/cuv/tests/cuv-test-project/include
+build objects/add.o: cxx_compile /home/tim/cuv/cuv/tests/cuv-test-project/src/add.cpp | module_cache/add.pcm
+  cxx = /usr/bin/clang++-19
+  cxxflags = -std=c++20 -Wall -O2 -I/home/tim/cuv/cuv/tests/cuv-test-project/include
+build targets/libmathlib.a: cxx_static_library objects/add.o
+
+# Default target
+default targets/libmathlib.a

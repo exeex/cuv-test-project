@@ -7,8 +7,9 @@ requires = ["cmake>=3.29"]
 backend = "cmake"
 
 [build-system.toolchain]
-C_COMPILER = "/usr/bin/clang-18"
-CXX_COMPILER = "/usr/bin/clang++-18"
+C_COMPILER = "/usr/bin/clang-19"
+CXX_COMPILER = "/usr/bin/clang++-19"
+AR = "/usr/bin/ar"
 
 [build-system.settings]
 build_type = "Release"
@@ -21,7 +22,7 @@ warnings = "all"
 warnings_as_errors = true
 
 [build-system.targets]
-mathlib = { type = "library", sources = ["src/*.cpp", "src/*.ixx"] }
+mathlib = { type = "library", sources = ["src/*.cpp", "src/*.cppm"] }
 
 [build-system.features]
 modules = true
